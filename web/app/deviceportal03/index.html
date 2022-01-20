@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta name="renderer" content="webkit|ie-stand|ie-comp" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<meta name="Generator" content="GVSUN" />
+	<meta name="Author" content="lipinyong" />
+	<meta name="Keywords" content="" />
+	<meta name="Description" content="" />
+	<title></title>
+	<script type="text/javascript" src="/script/core.js"></script>
+	<script type="text/javascript" src="/script/data.js"></script>
+	<script type="text/javascript" src="/script/element.js"></script>
+	<script type="text/javascript" src="/script/webui.js"></script>
+</head>
+<body leftMargin=0 topMargin=0>
+	<div  id="work">
+		<div id="device_left" style="background: rgba(255, 255, 255, 0.1); position: absolute; left: 0px; width: 200px; height: 566px;"></div>
+		<div id="device_work" style="background: rgba(0, 0, 0, 0.9); overflow: auto; position: absolute; left: 200px; top: 0px; width: 1594px; height: 566px; color: rgb(255, 255, 255);"></div>
+	</div>
+	<script type="text/javascript">
+		var App="./config.json".LoadJson();App.Paths=Document.Paths;
+		Document.LoadCSS(App.apppath+"/global.css");
+		App.cfg=(App.rootpath+"/api/getsystemfolder").LoadJson()
+		App.cfg.release=new JsonFile(App.rootpath+"/api/file/"+(App.cfg.rootpath+"/etc/conf/release.json").base64encode())
+		App.cfg.server=new JsonFile(App.rootpath+"/api/file/"+(App.cfg.rootpath+"/etc/conf/server.json").base64encode())
+		App.cfg.service=new JsonFile(App.rootpath+"/api/file/"+(App.cfg.rootpath+"/etc/conf/input.json").base64encode())
+		App.cfg.ip=App.Paths.server;App.cfg.port=App.cfg.service.data.websocket.port;
+		Start=(App.Paths.param!=null && "start" in App.Paths.param)?App.Paths.param.start:App.Start
+		mode=(App.Paths.param!=null && "mode" in App.Paths.param)?App.Paths.param.mode:App.mode
+		if(App.cfg.release.data.device.network=="lo")Start="frmNetwork";
+
+		App.code.list.ForEach(function(name){console.log(name)})
+		k=$$("#test")
+		k.Click(function(e){console.log($$(e))})
+		console.log(k.fnClick)
+	</script>	
+</body>
+
+</html>

@@ -1,0 +1,41 @@
+<div class="titler" id="attendance_title">
+<button id="face_attendance_button" onclick="App.frm.cmdface_Attendance_Click()">人脸考勤</button>
+<button id="video_attendance" onclick="App.frm.cmdface_Attendance_Click()">视频监控</button>
+<button onclick="App.frm.cmdqrcode_Attendance_Click()">二维码考勤</button>
+</div>
+<div class="content">
+<div class="scrollbar">
+<TABLE>
+<tr>
+<td >
+</td>
+</tr>
+<tr>
+<td valign="top">
+<span id="qcode_attendance" style="display:none"></span>
+<img id="face_attendance" style="display:block" width=320 height=240 src="http://<host>:1891/?action=streamer" />
+</td>
+<td valign="top">
+<TABLE width=100% height=100% class="basic_tab" >
+<tr>
+<td align="center">#</td>
+<td align="center">姓名</td>
+<td align="center">工号</td>
+<td align="center">卡号</td>
+<td align="center">考勤时间</td>
+</tr>
+<% for(i=0;i<data.length;i++){%>
+<tr>
+<td align="center"><%= i+1 %></td>
+<td align="center"><%= data[i].cname %></td>
+<td align="center"><%= data[i].username %></td>
+<td align="center"><%= data[i].cardnumber %></td>
+<td align="center"><%= data[i].datetime %></td>
+</tr>
+<% } %>
+</table>
+</td>
+</tr>
+</table>
+</div>
+</div>

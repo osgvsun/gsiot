@@ -1,0 +1,16 @@
+{
+    "device":{
+        "ip":"192.168.50.41",
+        "id":1403,
+        "name":"李品勇的测试工位仪"
+    },
+    "course":{
+        "id":"share",
+        "name":"公共开放实验"
+    },
+    "InspectionRecord":[{"datetime":{"endtime":"2021-12-28 23:59:59","starttime":"2021-12-28 00:00:00"},"Record":[],"experiment":{"id":"01","name":"现场预约"},"teachers":[],"UpLoad":[]}],
+    "lab":{
+        "id":1403,
+        "name":""
+    }
+}

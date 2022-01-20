@@ -1,0 +1,7 @@
+<table border="0" cellSpacing=1 cellPadding=1 width="100%" height="50">
+<tr>
+<td class="button" align="center" bgcolor="#cccccc" onclick="App.frm.cmdView_Click()">浏览</td>
+<td class="button" align="center" bgcolor="#cccccc" onclick="App.frm.cmdattendanceConfig_Click()">考勤</td>
+<td class="button" align="center" bgcolor="#cccccc" onclick="App.frm.cmdExit_Click()">退出</td>
+</tr>
+</table>

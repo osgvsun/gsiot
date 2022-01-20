@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta name="renderer" content="webkit|ie-stand|ie-comp" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<meta name="Generator" content="GVSUN" />
+	<meta name="Author" content="lipinyong" />
+	<meta name="Keywords" content="" />
+	<meta name="Description" content="" />
+	<title>工位仪门户</title>
+	<script type="text/javascript" src="/script/core.js"></script>
+	<script type="text/javascript" src="/script/element.js"></script>
+	<script type="text/javascript" src="/script/data.js"></script>
+	<script type="text/javascript" src="/script/webui.js"></script>
+</head>
+<body  leftMargin=0 topMargin=0 style="overflow:hidden">
+    <script type="text/javascript">
+            Document.LoadCSS("/css/gvsun.webui.css");
+			//桌面
+            $$(document.body).CreatesubElement().ID("desktop").css("background-size","100%").css("height","300px");
+			//任务栏
+			$$(document.body).CreatesubElement().ID("taskbar").BackColor("#000000").css("height","64px");
+			//win按钮
+			$$("#taskbar").CreatesubElement().ID("winstart").css("background-size","100%").css("background-image","url('./theme/w2.png')").css("height","64px").css("width","64px")
+            Document.OnResize(Document_Resize);
+            function Document_Resize(){
+               w=Document.Width();h=Document.Height();
+               $$("#desktop").css("height",(h-55)+"px");              
+            }
+			Document.LoadJscript("./apps/desktop/desktop.js");
+            Document_Resize()
+        </script>	
+</body>
+
+</html>

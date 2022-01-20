@@ -1,0 +1,11 @@
+<div class="scrollbar">
+<div class="basic_camera_limit">
+    <img id="raspicamera" class="basic_camera" src="<rpicamera>" />
+<div class="userinfo_box">
+    <br/>
+    <input id="login_username" type="text" value="" placeholder="请输入用户名" />
+    <input id="login_pass" type="password" value="" placeholder="请输入密码" />
+    <input type="button" class="userinfo_submit" value="提交"  onclick="App.frm.cmdLogin()">
+</div>
+</div>
+</div>

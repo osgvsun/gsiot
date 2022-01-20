@@ -1,0 +1,122 @@
+{
+	"device": {
+		"devicemodule":"tft",
+		"expand": {
+			"value": 1,
+			"help": "填充方式"
+		},
+		"width": {
+			"value": 320,
+			"help": "屏幕宽度"
+		},
+		"height": {
+			"value": 240,
+			"help": "屏幕高度"
+		},
+		"angle": {
+			"value": 270,
+			"help": "屏幕翻转"
+		},
+		"dc": {
+			"value": 4,
+			"help": "袖珍考勤机 dc=4 常规考勤机 dc=3"
+		},
+		"rst": {
+			"value": 25,
+			"help": ""
+		},
+		"camera": {
+			"angle": {
+				"value": 2,
+				"help": "90度为2，180度为3，270度为4"
+			},
+			"screensize": {
+				"width": 240,
+				"height": 320,
+				"help": "袖珍为（240，320），常规为（320，240）"
+			},
+			"screendirection": {
+				"hflip": true,
+				"vflip": false
+			},
+			"help":"摄像头配置"
+		},
+		"help": "spi屏幕配置"
+	},
+	"display": {
+		"qrcode": {
+			"width": 100,
+			"height": 100,
+			"url":"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfa862a08bf1c7baa&redirect_uri=http://www.gvsun.net/qrcode/{}/{}/1&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect"
+		},
+		"showdelay": {
+			"value": 2,
+			"help": "弹窗显示最短时间"
+		},
+		"fontfile": {
+			"value": "/etc/font/simhei.ttf",
+			"help": "所用字体"
+		},
+		"imagefiles": {
+			"welcomefile": "/etc/images/logo-05.jpg",
+			"backfile": "/etc/images/logo-06.jpg",
+			"isonlinefile": "/etc/images/online_32x32.jpg",
+			"offlinefile": "/etc/images/offline_32x32.jpg",
+			"sqlfile": "/etc/images/sql_32x32.png",
+			"nosqlfile": "/etc/images/nosql_32x32.png",
+			"wififile": "/etc/images/wifi_32x32.png",
+			"nowififile": "/etc/images/nowifi_32x32.png",
+			"error_msg501_file": "/etc/images/error_message_485.jpg",
+			"error_msg_file": "/etc/images/error_message.jpg",
+			"msg_file": "/etc/images/message.jpg",
+			"face1":"http://127.0.0.1:1891/?action=snapshot",
+			"face":"http://127.0.0.1:9523/mjpgsnapshot/screen",
+			"help": "图片素材"
+		},
+		"iscamera":{
+			"value":true,
+			"help":"是否启动摄像头"
+		}
+	},
+	"data": {
+		"readfile": {
+			"value": "/tmp/screen.in",
+			"help": "独立进程运行时的管道"
+		},
+		"eth": {
+			"value": [
+				"wlan0",
+				"wlan1"
+			],
+			"help": ""
+		},
+		"islinked": {
+			"value": "wlan0,eth0",
+			"help": ""
+		}
+	},
+	"tmpl":{
+		"lists":[
+			"showdatetime",
+			"showtitle",
+			"showtitle01",
+			"showversion",
+			"showsn",
+			"showipaddress",
+			"showipaddress01",
+			"qrcode"
+		],
+		"showdatetime":{"type":"text","eval":1,"left":5,"top":0,"text":"str(datetime.now())[11:19]","fontsize":14,"align":"right"},
+		"showversion":{"type":"text","eval":1,"left":0,"top":0,"text":"self.app.cfg.version.software_version","fontsize":12,"valign":"bottom"},
+		"showsn":{"type":"text","eval":1,"left":0,"top":0,"text":"self.app.cfg.version.sn","fontsize":12,"valign":"bottom","align":"right"},
+		"showtitle":{"type":"text","eval":0,"left":130,"top":140,"text":"庚商物联管理系统","fontsize":16},
+		"showtitle01":{"type":"text","eval":0,"left":150,"top":160,"text":"智能物联终端","fontsize":16},
+		"showipaddress":{"type":"text","eval":1,"left":130,"top":180,"text":  "'eth0:'+self.net('eth0').ip","fontsize":14},
+		"showipaddress01":{"type":"text","eval":1,"left":130,"top":200,"text":"'wlan0 :'+self.net('wlan0').ip","fontsize":14},
+		"qrcode":{"type":"image","eval":1,"left":0,"top":120,"text":"this.make_qr()"},
+		"showisonline":{"type":"image","eval":1,"left":0,"top":0,"text":"self.isonline if self.flag_isonline==True else self.offline"}
+	},
+	"monitor":{
+		"isonline":{"cmd":"isonline","interval":10,"url":"http://{}:{}/agent/{}/hi"}
+	}
+}

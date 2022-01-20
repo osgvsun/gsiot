@@ -1,0 +1,9 @@
+<%=device%><br>
+<div style="font-size:9px;color:#cccccc">
+<%if(islinked){ %>
+    ip:<%=ip%>
+    netmask:<%=netmask%>
+    <%if(gateway!=""){%>gw:<%=gateway%><%}%>    
+    <%if(iswireless!=""){%>ssid:<%=wifi.essid%><%}%>    
+<%}%>
+</div>

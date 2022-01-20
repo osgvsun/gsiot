@@ -1,0 +1,19 @@
+<div class=up  style="display:table-cell;vertical-align: middle;text-align:right;">
+    <img style="width: 240px; height: 320px;" id="raspicamera" src="/images/readcard.webp" />
+    <button style="width:100px;height:30px;" onclick="App.Forms.activeForm.makeAttendanceXLS()">生成EXCEL</button>
+</div>
+<div class="down" style="display:table-cell;width:100%;overflow:hidden;">
+    <TABLE height=50 width=100% >
+        <tr>
+            <td class="up" align="center">#</td>
+            <td class="up" align="center">姓名</td>
+            <td class="up" align="center">工号</td>
+            <td class="up" align="center">卡号</td>
+            <td class="up" align="center">考勤时间</td>
+            <td class="up" align="center"></td>
+        </tr>
+    </table>
+    <div id="divBody" style="overflow:auto;">
+    </div>
+ 
+</div>

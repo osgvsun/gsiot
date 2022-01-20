@@ -1,0 +1,13 @@
+<table border=0 width=100% height=100% style="color:#0078a7">
+<tr><td width=70>DHCP</td><td>
+<button style="width:80px;" data-interface="<%=device.replace(':','_')%>" onclick="App.Forms.activeForm.setDHCP(this)">
+<%if(dhcp){%>关闭<%}else {%> 开启<%}%>
+</button></td></tr>
+<tr><td>IP地址：</td><td><input <%if(dhcp){%>disabled="disabled"<%}%> id="<%=device.replace(':','_')%>_ipaddress" type="text" placeholder="请输入地址" value="<%=ip%>"/></td></tr>
+<tr><td>掩码：</td><td><input <%if(dhcp){%>disabled="disabled"<%}%> id="<%=device.replace(':','_')%>_netmask" type="text" placeholder="请输入掩码" value="<%=netmask%>"/></td></tr>
+<tr><td>网关：</td><td><input <%if(dhcp){%>disabled="disabled"<%}%> id="<%=device.replace(':','_')%>_gw" type="text" placeholder="请输入网关" value="<%=gateway%>"/></td></tr>
+<tr><td colspan=2>
+    <button style="width:80px" <%if(dhcp){%>disabled="disabled"<%}%> onclick="App.Forms.activeForm.Submit('<%=device.replace(':','_')%>')">提交</button>
+    <button style="width:80px" <%if(dhcp){%>disabled="disabled"<%}%> onclick="App.Forms.activeForm.SaveNetworkConfig()">保存</button>
+</td></tr>
+</table>

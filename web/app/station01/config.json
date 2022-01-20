@@ -1,0 +1,41 @@
+{
+	"tmpl": {
+		"frmMain": "frmMain/frmMain.txt",
+		"frmBrowser": "frmBrowser/frmBrowser.txt",
+		"frmAttendance": "frmAttendance/frmAttendance.txt",
+		"frmWork": "frmWork/frmWork.txt",
+		"frmOrder": "frmOrder/order.txt",
+		"frmRemoteAccess": "frmRemoteAccess/frmRemoteAccess.txt",
+		"frmLogin":"frmLogin/frmLogin.txt"
+	},
+	"api": {
+		"showlibrary": "api/record/showlibrary/today",
+		"release": "api/config/release.json",
+		"station": "api/config/station.json",
+		"attlog": "api/log/attlog.txt",
+		"uvccamer": "api/device/uvccamera/url",
+		"openuvccamer": "api/openuvccamer",
+		"getcard":"api/getcard/",
+		"login":"api/login/phone/<phone>/<pass>"
+	},
+	"Module": {
+		"qrcode": "script/qrcode.js",
+		"frmLoginURL":"frmLogin/frmLogin.js",
+		"frmAttendanceURL": "frmAttendance/frmAttendance.js",
+		"frmBrowserURL": "frmBrowser/frmBrowser.js",
+		"frmOrderURL": "frmOrder/frmOrder.js",
+		"frmWorkURL": "frmWork/frmWork.js",
+		"frmRemoteAccessURL": "frmRemoteAccess/frmRemoteAccess.js",
+		"jquery": "script/jquery-1.11.0.min.js"
+	},
+	"img":{
+		"userhead":"images/userhead.png",
+		"userimg":"images/",
+		"live":"images/live.jpg"
+	},
+	"config":{
+		"isshowuserpic":true,
+		"PublicServation":true,
+		"ReservationTime":30
+	}
+}

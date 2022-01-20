@@ -1,0 +1,50 @@
+<div class="header-second">
+    <img id="userhead" onerror="this.hidden=true" />
+    <%if(App.policy.courseid!="share") { %>
+    <label>检测人：<%=App.policy.cname%>[<%=App.policy.username%>]</label>
+    <%}%>
+    <label>开始日期:<%=App.policy.start%></label>
+    <label>结束日期:<%=App.policy.end%></label>
+    <div class="operation_btn">
+            <a id="cmdLive" class="on_live live_select" href="javascript:void(0)" data-imgUrl="images/live.jpg" onclick="App.Forms.activeForm.cmdLive_Click(this)"></a>
+            <input type="button" onclick="App.Forms.activeForm.cmdtakePicture_Click();" value="拍照" />　
+            <input type="button" id="on_videotape" class="on_videotape" id="startrecord" onclick="App.Forms.activeForm.cmdStartMoive_Click(this)" value="录像" />
+            <input type="button" id="off_videotape" class="off_videotape" onclick="App.Forms.activeForm.cmdStopMoive_Click(this)" value="停止" />
+            <%if(App.cfg.station.webcam!=""){%>
+            <input type="button" id="on_networkvideotape" class="on_networkvideotape" onclick="App.Forms.activeForm.cmdStartNetworkMoive_Click(this);" value="网络摄像头开始录像" />
+            <input type="button" id="off_networkvideotape" class="off_networkvideotape" onclick="App.Forms.activeForm.cmdStopNetworkMoive_Click(this);"  value="网络摄像头停止录像" style="display:none" />
+            <%}%>
+            <%if(data.courseid=="share"){%>
+                <input id="cmdQRCode" type="button" onclick="App.Forms.activeForm.cmdQRCode_Click(this);"  value="二维码" />
+            <%}%>
+    </div>
+    
+</div>
+<div id="cameraTime" style="position:absolute;top:100px;left:200px;z-index:3;color:red;"></div>
+<div class="content">
+    <div class="scrollbar">
+        <div id="preview" class="switch_camera_limit" style="height:89%" ></div>
+            <div class="sub_camera_box_limit">
+                <div id="library" class="sub_camera_box scrollbar">
+                    <div id="filelist" class="sub_camera_list">
+                        <% for(i=0;i<App.policy.InspectionRecord.Record.length;i++) {%>
+                                <%if(App.policy.InspectionRecord.Record[i].Type=="image"){%>
+                                    <a href="javascript:void(0)" data-itemtype="image" 
+                                        data-imgUrl="/data/inspection/<%=App.policy.courseid%>/<%=App.policy.experimentid%>/<%=App.policy.InspectionRecord.Record[i].File %>"  
+                                        onclick="App.Forms.activeForm.sub_camera_box_a_click(this);"  class="switch_camera_sub  sub_camera_select">
+                                    <img class="switch_camera_sub" src="/data/inspection/<%=App.policy.InspectionRecord.Record[i].courseid%>/<%=App.policy.InspectionRecord.Record[i].experimentid%>/<%=App.policy.InspectionRecord.Record[i].File %>" />
+                                    </a>
+                                <%}else{%>
+                                    <a href="javascript:void(0)" 
+                                        data-itemtype="video" 
+                                        data-imgUrl="/data/inspection/<%=App.policy.courseid%>/<%=App.policy.experimentid%>/<%=App.policy.InspectionRecord.Record[i].File %>"  
+                                        onclick="App.Forms.activeForm.sub_camera_box_a_click(this);"  class="switch_camera_sub  sub_camera_select">
+                                    <video class="switch_camera_sub" src="/data/inspection/<%=App.policy.courseid%>/<%=App.policy.experimentid%>/<%=App.policy.InspectionRecord.Record[i].File%>"></video>
+                                    </a>
+                                <%}%>
+                        <%}%>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>

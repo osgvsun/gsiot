@@ -1,0 +1,69 @@
+<div class="content">
+<div class="scrollbar">
+<TABLE class="basic_tab" >
+<tr>
+<td align="center">#</td>
+<td align="center">课程</td>
+<td align="center" colspan=2>实验项目</td>
+<td align="center">开始时间</td>
+<td align="center">结束时间</td>
+<td align="center">指导老师/预约人</td>
+<td align="center" width="100">操作</td>
+</tr>
+
+<% if(result.length>0) { %>
+<% recordindex=0;%>
+<% for(var i=0;i<result.length;i++){ %>
+<% for(var j=0;j<result[i].InspectionRecord.length;j++){ %>
+<% if(result[i].InspectionRecord[j].datetime.endtime > new Date().Format('yyyy-MM-dd hh:mm:ss')&&(result[i].course.id =="share")&&PublicServation){%>
+<tr bgcolor="#ffffff">
+<td align="center"><%= 0 %></td>
+<td align="center"><%= result[i].course.name %></td>
+<td align="center"><%= result[i].InspectionRecord[j].experiment.id%></td>
+<td align="center"><%= result[i].InspectionRecord[j].experiment.name%></td>
+<td align="center"><%= result[i].InspectionRecord[j].datetime.starttime%></td>
+<td align="center"><%= result[i].InspectionRecord[j].datetime.endtime%></td>
+<td align="center">
+<%for(var tindex=0;tindex<result[i].InspectionRecord[j].teachers.length;tindex++){ %>
+<%=result[i].InspectionRecord[j].teachers[tindex].cname+" "%>
+<% }%>
+</td>
+<td>
+<input onclick="App.Forms.frmBrowser.cmdInspection_Click(\'<%= result[i].course.id %>\',\'<%=result[i].InspectionRecord[j].experiment.id%>\',\'<%=result[i].InspectionRecord[j].datetime.starttime%>\',\'<%=result[i].InspectionRecord[j].datetime.endtime%>\')" type="button" value="进入">
+</td>
+</tr>
+
+<% }%>
+<% }%>
+<% }%>
+<% }%>
+
+<% if(result.length>0) { %>
+<% recordindex=0;%>
+<% for(var i=0;i<result.length;i++){ %>
+<% for(var j=0;j<result[i].InspectionRecord.length;j++){ %>
+<% if(result[i].InspectionRecord[j].datetime.endtime > new Date().Format('yyyy-MM-dd hh:mm:ss')&&(result[i].course.id!="share")){%>
+<tr bgcolor="#ffffff">
+<td align="center"><%= j+i+1 %></td>
+<td align="center"><%= result[i].course.name %></td>
+<td align="center"><%= result[i].InspectionRecord[j].experiment.id%></td>
+<td align="center"><%= result[i].InspectionRecord[j].experiment.name%></td>
+<td align="center"><%= result[i].InspectionRecord[j].datetime.starttime%></td>
+<td align="center"><%= result[i].InspectionRecord[j].datetime.endtime%></td>
+<td align="center">
+<%for(var tindex=0;tindex<result[i].InspectionRecord[j].teachers.length;tindex++){ %>
+<%=result[i].InspectionRecord[j].teachers[tindex].cname+" "%>
+<% }%>
+</td>
+<td>
+<input onclick="App.Forms.frmBrowser.cmdInspection_Click(\'<%= result[i].course.id %>\',\'<%=result[i].InspectionRecord[j].experiment.id%>\',\'<%=result[i].InspectionRecord[j].datetime.starttime%>\',\'<%=result[i].InspectionRecord[j].datetime.endtime%>\')" type="button" value="进入">
+</td>
+</tr>
+
+<% }%>
+<% }%>
+<% }%>
+<% }%>
+</table>
+</div>
+</div>

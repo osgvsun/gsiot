@@ -1,0 +1,78 @@
+<%if(result.isroot==false){%>
+<div class="up" style="BACKGROUND: #eeeeee;" 
+    onmousedown="this.style.background=\'blue\';" onmouseup="this.style.background=\'#ffffff\';"
+    onclick="App.Forms.activeForm.changeAddress(\'<%=result.Name%>\',\'<%=result.parentpath%>\')">
+     <table width="100%" height=64>
+        <tr>
+            <td width="5"></td>
+            <td align="left" valign="middle">返回</td>
+        </tr>
+    </table>
+</div>
+<%}%>
+<% for(key in result.folder){%>
+<div onmousedown="this.style.background=\'blue\';" onmouseup="this.style.background=\'#ffffff\';"
+    onclick="App.Forms.activeForm.changeAddress(\'<%=result.Name%>\',\'<%=result.folder[key].path%>\')">
+    <table width="100%" height="100%">
+        <tr>
+            <td width="64"><img src="/app/filetransfer/images/dir.png" style="width:64px;height:64px" /></td>
+            <td align="left" valign="middle">
+                <%=result.folder[key].filename%><br>  
+                <div style="font-size:9px;color:#555555">
+                    <label>大小：<%=result.folder[key].Size%></label>
+                    <label>修改日期：<%=result.folder[key].datetime%></label>
+                </div>
+            </td>
+            <td width="200" align="center" valign="middle">
+                <%if(result.Name =="Left"){%>
+                <button style="display:inline-block;width:80px;height:30px"
+                    onclick="App.Forms.activeForm.copyItem(\'<%=result.Name%>\',\'<%=result.folder[key].path%>\');window.event.cancelBubble = true;"
+                    >复制
+                </button>
+            <%}else{%>
+                <button style="display:inline-block;width:80px;height:30px"
+                    onclick="App.Forms.activeForm.delItem(\'<%=result.Name%>\',\'<%=result.folder[key].path%>\');window.event.cancelBubble = true;"
+                    >删除
+                </button>
+            <%}%>
+            </td>
+        </tr>
+    </table>
+</div>
+<%}%>
+<% for(key in result.file){%>
+<div onmousedown="this.style.background=\'blue\'; " onmouseup="this.style.background=\'#ffffff\';"
+    ondblclick="">
+    <table width="100%" height="100%">
+        <tr>
+            <td width="64">
+                <%if(App.Forms.activeForm.pan.conttype[result.file[key].ext]!=null){%>
+                <img src="<%=App.path+App.Forms.activeForm.pan.conttype[result.file[key].ext]%>" style="width:64px;height:64px" />
+                <%} else {%>
+                <img src="<%=App.path%>/frmFileTranfer/images/file.png" style="width:64px;height:64px" />
+                <%}%>
+            </td>
+            <td align="left" valign="middle">
+                <%=result.file[key].filename%><br>  
+                <div style="font-size:9px;color:#555555">
+                    <label>大小：<%=result.file[key].Size%></label>
+                    <label>修改日期：<%=result.file[key].datetime%></label>
+                </div>
+            </td>
+            <td width="200" align="center" valign="middle">
+            <%if(result.Name =="Left"){%>
+                <button style="display:inline-block;width:80px;height:30px"
+                    onclick="App.Forms.activeForm.copyItem(\'<%=result.Name%>\',\'<%=result.file[key].path%>\');window.event.cancelBubble = true;"
+                    >复制
+                </button>
+            <%}else{%>
+                <button style="display:inline-block;width:80px;height:30px"
+                    onclick="App.Forms.activeForm.delItem(\'<%=result.Name%>\',\'<%=result.file[key].path%>\');window.event.cancelBubble = true;"
+                    >删除
+                </button>
+            <%}%>
+            </td>
+        </tr>
+    </table>
+</div>
+<%}%>

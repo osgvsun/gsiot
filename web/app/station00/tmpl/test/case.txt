@@ -1,0 +1,64 @@
+<div class="switch_camera_visible">
+ 	<div class="switch_camera_box">
+ 		<div class="switch_camera_content">
+ 			<div class="scrollbar">
+ 				  <div class="testing_info">
+                    <img onerror="this.hidden=true" src="/images/userhead.png" />
+                    <label>检测人：<%=data.cname%>[<%=data.username%>]</label>
+                    <label>开始日期:<%=data.InspectionRecord.datetime.starttime%></label>
+                    <label>结束日期:<%=data.InspectionRecord.datetime.endtime%></label>
+                    <div class="operation_btn">
+                         <a href="javascript:void(0)" data-imgUrl="/images/live.jpg" onclick="frmWork.Show()" class="on_live live_select"></a>
+                         <input type="button" onclick="frmWork.cmdtakePicture_Click();" value="拍照" />　
+                         <input type="button" class="on_videotape" id="startrecord" onclick="frmWork.onVideotape(this);frmWork.cmdStartMoive_Click()" value="录像" />
+                         <input type="button" class="off_videotape" onclick="frmWork.offVideotape(this);frmWork.cmdStopMoive_Click()" value="停止" />
+                         <input type="button" class="on_networkvideotape" onclick="frmWork.onNetworkVideo(this);" value="网络摄像头开始录像" />
+                         <input type="button" class="off_networkvideotape" onclick="frmWork.offNetworkVideo(this);"  value="网络摄像头停止录像" style="display:none" />
+                     </div>
+                  </div>
+                  <div class="switch_camera_limit">
+                      <img id="showpic" class="switch_camera_main" src="<uvccamera>"/>
+                      <video id="showvideo" class="switch_camera_main" style="display:none" controls="controls"></video>
+                      <div class="videotape_control">
+                  		<div class="videotape_ing beat">REC
+                            <span id="cameraTime"></span>
+                        </div>
+                  		<label class="pause_videotape fa fa-pause-circle-o"></label>
+                  		<label class="play_videotape fa fa-play-circle-o"></label>
+                  	  </div>
+                  </div>
+                  <div class="sub_camera_box_limit">
+                      <div id="library" class="sub_camera_box scrollbar">
+                          <div class="sub_camera_list">
+                              <% for(i=0;i<data.InspectionRecord.Record.length;i++) {%>
+                                <%if(data.InspectionRecord.Record[i].Type=="image"){%>
+                                    <a href="javascript:void(0)" data-imgUrl="/data/inspection/<%=data.InspectionRecord.courseid%>/<%=data.InspectionRecord.experimentid%>/<%=data.InspectionRecord.Record[i].File %>"  onclick="sub_camera_box_a_click(this);"  class="switch_camera_sub  sub_camera_select">
+                                    <img class="switch_camera_sub" src="/data/inspection/<%=data.InspectionRecord.courseid%>/<%=data.InspectionRecord.experimentid%>/<%=data.InspectionRecord.Record[i].File %>" />
+                                    </a>
+                                <%}%>
+                                <%if(data.InspectionRecord.Record[i].Type=="video"){%>
+                                    <a href="javascript:void(0)" data-imgUrl="/data/inspection/<%=data.InspectionRecord.courseid%>/<%=data.InspectionRecord.experimentid%>/<%=data.InspectionRecord.Record[i].File %>"  onclick="sub_camera_video_a_click(this);"  class="switch_camera_sub  sub_camera_select">
+                                    <video class="switch_camera_sub" src="/data/inspection/<%=data.InspectionRecord.courseid%>/<%=data.InspectionRecord.experimentid%>/<%=data.InspectionRecord.Record[i].File%>"></video>
+                                    </a>
+                                <%}%>
+                              <%}%>
+
+
+                              <% for(i=0;i<data.InspectionRecord.UpLoad.length;i++) {%>
+                              <%if(data.InspectionRecord.UpLoad[i].Type=="image"){%>
+                              <a href="javascript:void(0)" data-imgUrl="/data/inspection/<%=data.InspectionRecord.courseid%>/<%=data.InspectionRecord.experimentid%>/<%=data.InspectionRecord.InspectionRecord.UpLoad[i].File %>"  onclick="sub_camera_box_a_click(this);"  class="switch_camera_sub  sub_camera_select">
+                              <img class="switch_camera_sub" src="/data/inspection/<%=data.InspectionRecord.courseid%>/<%=data.InspectionRecord.experimentid%>/<%=data.InspectionRecord.InspectionRecord.UpLoad[i].File %>" />
+                              </a>
+                              <%}%>
+                              <%if(data.InspectionRecord.UpLoad[i].Type=="video"){%>
+                              <video class="switch_camera_sub" src="/data/inspection/<%=data.InspectionRecord.courseid%>/<%=data.InspectionRecord.experimentid%>/<%=data.InspectionRecord.InspectionRecord.UpLoad[i].File
+                              %>"></video>
+                              <%}%>
+                              <%}%>
+                          </div>
+                      </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+</div>

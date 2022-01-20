@@ -1,0 +1,18 @@
+{
+  "webcam": "rtsp://test:password1@192.168.0.65:554/h264/ch0/sub/av_stream",
+  "task": null,
+  "upload_iotserver": true,
+  "upload_resourse": true,
+  "debug": false,
+  "webroot": "/web/data/inspection",
+  "camera": {
+    "inside": true,
+    "outside": true
+  },
+  "mode": "streamer",
+  "LocalreServation": true,
+  "device": {
+    
+  },
+  "PublicServation": false
+}

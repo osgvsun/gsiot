@@ -1,0 +1,57 @@
+apt update \
+&& apt install build-essential -y \
+&& apt install cmake -y \
+&& apt install ffmpeg -y \
+&& apt install gir1.2-gst-plugins-base-1.0 -y \
+&& apt install gir1.2-gstreamer-1.0 -y \
+&& apt install git -y \
+&& apt install gstreamer1.0-alsa -y \
+&& apt install gstreamer1.0-doc -y \
+&& apt install gstreamer1.0-omx -y \
+&& apt install gstreamer1.0-plugins-bad -y \
+&& apt install gstreamer1.0-plugins-bad-dbg -y \
+&& apt install gstreamer1.0-plugins-bad-doc -y \
+&& apt install gstreamer1.0-plugins-base -y \
+&& apt install gstreamer1.0-plugins-base-apps -y \
+&& apt install gstreamer1.0-plugins-base-dbg -y \
+&& apt install gstreamer1.0-plugins-base-doc -y \
+&& apt install gstreamer1.0-plugins-good -y \
+&& apt install gstreamer1.0-plugins-good-dbg -y \
+&& apt install gstreamer1.0-plugins-good-doc -y \
+&& apt install gstreamer1.0-plugins-ugly -y \
+&& apt install gstreamer1.0-plugins-ugly-dbg -y \
+&& apt install gstreamer1.0-plugins-ugly-doc -y \
+&& apt install gstreamer1.0-pulseaudio -y \
+&& apt install gstreamer1.0-tools -y \
+&& apt install gstreamer1.0-x -y \
+&& apt install imagemagick -y \
+&& apt install i2c-tools -y \
+&& apt install libevent-dev -y \
+&& apt install libffi-dev -y \
+&& apt install libgstreamer-plugins-bad1.0-0 -y \
+&& apt install libgstreamer-plugins-bad1.0-dev -y \
+&& apt install libgstreamer-plugins-base1.0-0 -y \
+&& apt install libgstreamer-plugins-base1.0-dev -y \
+&& apt install libgstreamer1.0-0 -y \
+&& apt install libgstreamer1.0-0-dbg -y \
+&& apt install libgstreamer1.0-dev -y \
+&& apt install libjpeg8-dev -y \
+&& apt install liborc-0.4-0 -y \
+&& apt install liborc-0.4-0-dbg -y \
+&& apt install liborc-0.4-dev -y \
+&& apt install liborc-0.4-doc -y \
+&& apt install libssl-dev -y \
+&& apt install libv4l-dev -y \
+&& apt install nginx -y \
+&& apt install nodejs -y \
+&& apt install python-mysqldb -y \
+&& apt install python-pil -y \
+&& apt install python-pip -y \
+&& apt install python-smbus -y \
+&& apt install python-serial -y \
+&& apt install python-setuptools -y \
+&& apt install python-opencv -y \
+&& apt install subversion -y \
+&& cd ./setup/Adafruit_GPIO-1.0.3 && python setup.py build \
+&& cd ../Adafruit_Python_ILI9341 && python setup.py build \
+&& cd ../.. && pip install -r ./requirements.txt

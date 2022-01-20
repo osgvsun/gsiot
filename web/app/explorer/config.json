@@ -1,0 +1,31 @@
+{
+	"api": {
+		"release": "api/config/release.json",
+		"station": "api/config/station.json"
+	},
+	"Module": {
+		"qrcode": "script/qrcode.js",
+		"frmSystem":"frmSystem/frmSystem.js",
+		"frmNetwork":"frmNetwork/frmNetwork.js",
+		"jquery": "script/jquery-1.11.0.min.js"
+	},
+	"config":{
+		"isshowuserpic":true,
+		"PublicServation":true,
+		"panLeftwidth":300,
+		"ReservationTime":30
+	},
+	"tmpl":{
+		"panLeft": {
+			"ID": "device_left",
+			"BackColor": "#cccccc",
+			"Position":{"left": 0,"height":100,"width":100}
+		},
+		"panWork":{
+			"ID": "device_work",
+			"BackColor": "#999999",
+			"Position":{"left": 0,"height":100,"width":100}
+		}
+	}
+}
+

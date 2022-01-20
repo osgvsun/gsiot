@@ -1,0 +1,95 @@
+{
+	"rootpath":"",
+	"approotpath":"",
+	"path":"/modules",
+	"apppath":"/app/station",
+	"Start":"frmBrowser",
+	"mode":"debug",
+	"station":{
+		"isshowuserpic":true,
+		"PublicServation":true,
+		"ReservationTime":30,
+		"frmNetwork_starttop":0,
+		"attendance":true,
+		"localreServation":true
+	},
+	"Forms":{
+		"activeForm":null,
+		"frmMain":null,
+		"frmBrowser":null,
+        "frmAttendance":null,
+        "frmInspection":null,
+        "frmLogin":null,
+        "frmSystem":null,
+        "frmNetwork":null,
+        "frmFileTranfer":null
+	},
+	"code":{
+		"list":["frmBrowser","frmLogin","frmInspection","frmFileTranfer","frmAttendance","frmNetwork","frmOrder"],
+		"release":{
+			"frmBrowser":{"url":"/frmBrowser/frmBrowser.code.js","code":null},
+			"frmAttendance":{"url":"/frmAttendance/frmAttendance.code.js","code":null},
+			"frmInspection":{"url":"/frmInspection/frmInspection.code.js","code":null},
+			"frmOrder":{"url":"/frmOrder/frmOrder.code.js","code":null},
+			"frmNetwork":{"url":"/frmNetwork/frmNetwork.code.js","code":null},
+			"frmFileTranfer":{"url":"/frmFileTranfer/frmFileTranfer.code.js","code":null}
+		},
+		"compile":{
+			"frmBrowser":{"url":"/frmBrowser/frmBrowser.code","code":null},
+			"frmFileTranfer":{"url":"/frmFileTranfer/frmFileTranfer.code","code":null},
+			"frmOrder":{"url":"/frmOrder/frmOrder.code","code":null},
+			"frmNetwork":{"url":"/frmNetwork/frmNetwork.code","code":null},
+			"frmInspection":{"url":"/frmInspection/frmInspection.code","code":null},
+			"frmAttendance":{"url":"/frmAttendance/frmAttendance.code","code":null}
+		},
+		"debug":{
+			"frmMain":{"url":"","code":null},
+			"frmBrowser":{"url":"/frmBrowser/frmBrowser.js","code":null},
+			"frmOrder":{"url":"/frmOrder/frmOrder.js","code":null},
+			"frmAttendance":{"url":"/frmAttendance/frmAttendance.js","code":null},
+			"frmInspection":{"url":"/frmInspection/frmInspection.js","code":null},
+			"frmLogin":{"url":"/frmLogin/frmLogin.js","code":null},
+			"frmSystem":{"url":"/frmSystem/frmSystem.js","code":null},
+			"frmNetwork":{"url":"/frmNetwork/frmNetwork.js","code":null},
+			"frmRemoteAccess":{"url":"/frmRemoteAccess/frmRemoteAccess.js","code":null},
+			"frmFileTranfer":{"url":"/frmFileTranfer/frmFileTranfer.js","code":null}
+			
+		}	
+	},
+	"img":{
+		"userhead":"/images/userhead.png",
+		"userimg":"/images",
+		"live":"/images/live.jpg"
+	},
+	"api": {
+		"release": "/api/config/release.json",
+		"station": "/api/config/station.json",
+		"service": "/api/config/input.json",
+		"server": "/api/config/server.json",
+		"makeshare":"/api/makeshare",
+		"share_record":"/data/inspection/share/record.json",
+		"showlibrary": "/api/record/showlibrary/today",
+		"attlog": "/api/log/attlog.txt",
+		"uvccamer": "/api/device/uvccamera/url",
+		"openuvccamer": "/api/openuvccamer",
+		"getcard":"/api/getcard/",
+		"getuser":"/api/getuser/",
+		"login":"/api/login/phone/<user>/<pass>",
+		"login1":"/api/login/<user>/<pass>"
+		
+	},
+	"Module": {
+		"qrcode": "/script/qrcode.js",
+		"jquery": "/script/jquery-1.11.0.min.js"
+	},
+	"policy":{
+		"username":"",
+		"cname":"",
+		"courseid":"",
+		"experimentid":"",
+		"InspectionRecord":null,
+		"start":"",
+		"end":"",
+		"data":[]
+	}
+}

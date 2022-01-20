@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta name="renderer" content="webkit|ie-stand|ie-comp" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<meta name="Generator" content="GVSUN" />
+	<meta name="Author" content="lipinyong" />
+	<meta name="Keywords" content="" />
+	<meta name="Description" content="" />
+	<title>工位仪门户</title>
+	<link type="text/css" rel="stylesheet" href="/app/station/css/global.css">
+	<script type="text/javascript" src="/script/core.js"></script>
+	<script type="text/javascript" src="/script/element.js"></script>
+	<script type="text/javascript" src="/script/data.js"></script>
+	<script type="text/javascript" src="/script/webui.js"></script>
+	<script type="text/javascript" src="/script/vconsole.min.js"></script>
+	<script type="text/javascript" src="script/qrcode.js"></script>
+	<script type="text/javascript" src="script/FancyZoom.js"></script>
+	<script type="text/javascript" src="script/FancyZoomHTML.js"></script>
+	<!-- <style>
+		.header {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 3rem;
+	line-height: 3rem;
+}
+	</style> -->
+</head>
+
+<body>
+	<div  id="work" class="outside_box"></div>
+		<script type="text/javascript">
+			Document.LoadJscript("/app/station/script/app.js",function(url){
+				App.handle=new Element("work")
+				App.path="/app/station"
+				App.rootpath="/"
+				App.Windows_Load();
+				System.OnResize(function() {
+					App.Windows_Resize(Document.Width(),Document.Height())
+				});
+			})
+			
+		</script>
+		<script type="text/javascript" src="script/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="script/global.js"></script>
+		
+		
+</body>
+
+</html>

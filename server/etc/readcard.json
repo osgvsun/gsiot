@@ -1,0 +1,12 @@
+{
+    "device":{
+        "modulename":"tx800t",
+        "serialname":"/dev/ttyUSB0",
+        "log":"/etc/log/readcard",
+        "cardtype":"wg34",
+        "readcard_credit_card_mod":{
+            "value":0,
+            "help":"刷卡模式 0-触发式 1-驻留式"
+         }
+    }
+}

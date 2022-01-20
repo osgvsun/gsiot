@@ -1,0 +1,41 @@
+<div class="header">
+    <label>
+        <span>工位：</span>
+        <span><%=parent.StationId%></span>
+    </label>
+    <label>
+        <span>实验室编号：</span>
+        <span>[<%=parent.LabId%>]</span>
+    </label>
+    <%if(parent.cfg.release.module.slots.indexOf('sensor')!=-1) {%>
+        <label>
+            <span>当前温度：</span>
+            <span id="humidity">00.0</span>
+            <span>C</span>
+        </label>
+        <label>
+            <span>当前湿度：</span>
+            <span id="humidity">00.0</span>
+            <span>%</span>
+        </label>
+    <%}%>
+    <label>
+        <span>ip地址：</span>
+        <span><%=parent.cfg.release.device.ip%></span>
+    </label>
+    <label style="float: right;"><span id="system_time">08:00:00</span></label>
+</div>
+<div id="panwork" class="content">
+
+</div>
+<div class="footer">
+    <div class="button" align="center" bgcolor="#cccccc" onclick="App.frm.cmdView_Click()">浏览</div>
+    <%if(parent.cfg.station.LocalreServation){%>
+        <div class="button" align="center" bgcolor="#cccccc" onclick="App.frm.cmdOrder_Click()">本机预约</div>
+    <%}%>
+    <div class="button" align="center" bgcolor="#cccccc" onclick="App.frm.cmdAttendance_Click()">考勤</div>
+    <%if(App.ip=="127.0.0.1"){%>
+        <div class="button" align="center" bgcolor="#cccccc" onclick="App.frm.cmdRemoteAccess_Click()">远程访问</div>
+    <%}%>
+    <div class="button" align="center" bgcolor="#cccccc" onclick="location.reload()">退出/刷新</div>
+</div>	

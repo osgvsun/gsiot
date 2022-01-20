@@ -1,0 +1,13 @@
+<table border="0" width="100%" bgcolor="#3c8dbc" height="100%">
+<tr>
+<td align="left">工位：<%=data.StationId%>[检测室编号：<%=data.LabId%>]</td>
+<td>当前温度：</td>
+<td id="temperature">00.0</td>
+<td>C</td>
+<td>当前湿度：</td>
+<td id="humidity">00.0</td>
+<td>%</td>
+<td>当前时间：</td>
+<td id="system_time">2020-05-09 08:00:00</td>
+</tr>
+</table>

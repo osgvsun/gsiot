@@ -1,0 +1,45 @@
+<table border=0 width=100% height=50 style="font-weight: bold;color:#ffffff;background:rgba(66, 119, 197,0.7);">
+<tr>
+<td>
+<span style="display: inline-block;width:5px"></span>
+<span style="display: inline-block;">工位：</span>
+<span style="display: inline-block;"> <%=cfg.release.device.id%></span>
+<span style="display: inline-block;">实验室编号：</span>
+<span style="display: inline-block;">[<%=cfg.release.device.labid%>]</span>
+<span style="display: inline-block;"><%=cfg.release.device.network%> 网络地址：</span>
+<span style="display: inline-block;"> <%=cfg.release.device.ip%></span>
+<%if(cfg.release.module.slots.indexOf('sensor')!=-1) {%>
+<span style="display: inline-block;">当前温度：</span>
+<span style="display: inline-block;" id="humidity">00.0</span>
+<span style="display: inline-block;">°C</span>
+<span style="display: inline-block;">当前湿度：</span>
+<span style="display: inline-block;" id="humidity">00.0</span>
+<span style="display: inline-block;">%</span>
+<%}%>
+</td>
+<td align="right">版本：<%=cfg.release.version.software_version%> </td>
+<td width="80" align="center" id="system_time">08:00:00</td>
+</tr>
+</table>
+<div id="panwork" style="overflow:hidden">
+
+</div>
+<div id="panfooter" class="footer">
+    <div class="button" onclick="App.Forms.frmBrowser.data=null;App.Forms.frmBrowser.Show();App.wsc.SendMessage({\'cmd\':\'stop detect face\'})">浏览</div>
+    <%if(cfg.release.device.ip=="" || cfg.release.device.network=="lo"){%>
+        <div class="button" onclick="App.Forms.frmNetwork.Show();App.wsc.SendMessage({\'cmd\':\'stop detect face\'})">网络配置</div>
+    <%} else {%>
+        <div class="button" onclick="App.Forms.frmOrder.Show();App.wsc.SendMessage({\'cmd\':\'stop detect face\'})">本机预约</div>
+        <%if(Document.Paths.server=="127.0.0.1"){%>
+            <div class="button" align="center" bgcolor="#cccccc" onclick="App.Forms.frmRemoteAccess.Show();App.wsc.SendMessage({\'cmd\':\'stop detect face\'})">远程访问</div>
+        <%}%>
+        <%if(station.attendance){%>
+            <div class="button" onclick="App.Forms.frmAttendance.Show();App.wsc.SendMessage({\'cmd\':\'start detect face\'})">考勤</div>
+        <%}%>
+    <%}%>
+    
+    <div class="button" onclick="App.Forms.frmFileTranfer.Show().setTitle(false);App.Forms.activeForm.ListView(App.Forms.activeForm.Right);App.wsc.SendMessage({\'cmd\':\'stop detect face\'})">视频文件下载</div>
+    
+    <div class="button" onclick="App.cmdExit_Click();App.wsc.SendMessage({\'cmd\':\'stop detect face\'})">退出</div>
+    <div class="button" onclick="App.wsc.SendMessage({\'cmd\':\'stop detect face\'});window.location.reload()">重新载入</div>
+</div>	

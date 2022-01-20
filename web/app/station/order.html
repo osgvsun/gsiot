@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta name="renderer" content="webkit|ie-stand|ie-comp" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+		<meta name="Generator" content="GVSUN" />
+		<meta name="Author" content="lipinyong" />
+		<meta name="Keywords" content="" />
+		<meta name="Description" content="" />
+		<title></title>
+		<script type="text/javascript" src="/script/core.js"></script>
+		<script type="text/javascript" src="/script/data.js"></script>
+		<script type="text/javascript" src="/script/element.js"></script>
+		<script type="text/javascript" src="/script/webui.js"></script>
+	</head>
+	<body leftMargin=0 topMargin=0>
+		<div  id="work" class="outside_box"></div>
+		<script type="text/javascript">
+			var App="./config.json".LoadJson();
+            Document.LoadCSS(App.apppath+"/global.css");
+			Document.LoadCSS(App.rootpath+"/css/gvsun.webui.css");
+			Document.LoadCSS(App.rootpath+"/css/page.css");
+            App.cfg={
+				release:(App.rootpath+App.api.release).LoadJson(),
+				station:(App.rootpath+App.api.station).LoadJson(),
+				service:(App.rootpath+App.api.service).LoadJson(),
+				ip:Document.Paths.server
+			};
+			App.cfg.port=App.cfg.service.websocket.port;
+            $$("#work").Html(tmpl((App.apppath+"/app2.txt").LoadURL(),App))
+			App.parent=new Element("#panwork");
+			Document.SystemTime("system_time");
+			App.parent.Html((App.path+"/frmOrder/order.txt").LoadURL())
+			$$("#submit").Click(function(){
+				url=App.rootpath + "/api/order/user/"+$$("#user").Val()+"/"+"datetime/"+$$("#dt").Val();				
+				console.log(url)
+				data=url.LoadURL()
+				console.log(data)
+				if(data.result.code==200)msg="预约成功"
+				else{msg="预约失败，"+data.result.msg}	
+				newmsgbox(msg,3);						
+				if(msg =="预约成功"){
+					window.setTimeout(function(){
+						path = window.location.href;
+						window.location.href = path + "/../index.html"
+					},2500)	
+				}
+			})
+			d=new Date();
+			d.setMinutes(d.getMinutes()+App.station.ReservationTime);
+    		$$("#dt").Val(d.Format("hh:mm:ss"));
+		</script>
+	</body>
+</html>
+

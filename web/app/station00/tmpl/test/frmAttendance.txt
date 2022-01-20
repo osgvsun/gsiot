@@ -1,0 +1,12 @@
+<div class="content">
+<div class="scrollbar">
+<TABLE class="basic_tab" >
+<tr>
+<td align="center">姓名</td>
+<td align="center">工号</td>
+<td align="center">卡号</td>
+<td align="center">考勤时间</td>
+</tr>
+</table>
+</div>
+</div>

@@ -1,0 +1,28 @@
+{
+  "result": [
+    {
+      "course": {
+        "id": "20210709081124",
+        "name": "现场预约"
+      },
+      "InspectionRecord": [
+        {
+          "experiment": {
+            "id": "01",
+            "name": "现场预约"
+          },
+          "datetime": {
+            "endtime": "2021-07-10 23:00:00",
+            "starttime": "2021-07-10 08:11:24"
+          },
+          "teachers": [
+            {
+              "username": "20110032",
+              "cname": "李品勇"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

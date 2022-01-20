@@ -1,0 +1,18 @@
+{
+	"rootpath":"/",
+	"path":"/app/filetransfer",
+	"Start":"frmMain",
+	"Forms":{
+		"frmMain":{"url":"/frmMain/frmMain.js","code":null}
+	},
+	"api": {
+		"release": "api/config/release.json",
+		"station": "api/config/station.json",
+		"service": "api/config/input.json"
+	},
+	"Module": {
+		"qrcode": "script/qrcode.js",
+		"jquery": "script/jquery-1.11.0.min.js"
+	}
+}
+

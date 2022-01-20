@@ -1,0 +1,115 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta name="renderer" content="webkit|ie-stand|ie-comp" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<meta name="Generator" content="GVSUN" />
+	<meta name="Author" content="lipinyong" />
+	<meta name="Keywords" content="" />
+	<meta name="Description" content="" />
+	<title></title>
+	<script type="text/javascript" src="/script/core.js"></script>
+	<script type="text/javascript" src="/script/data.js"></script>
+	<script type="text/javascript" src="/script/element.js"></script>
+	<script type="text/javascript" src="/script/webui.js"></script>
+</head>
+<body leftMargin=0 topMargin=0>
+	<div  id="work" class="outside_box"></div>
+		<script type="text/javascript">
+			var App="./config.json".LoadJson();
+			r="/api/getsystemfolder".LoadJson()
+			App.approotpath=r.rootpath;
+			App.webrootpath=App.approotpath+r.webroot;
+            Document.LoadCSS(App.apppath+"/global.css");
+            App.cfg={
+				release:(App.rootpath+App.api.release).LoadJson(),
+				station:(App.rootpath+App.api.station).LoadJson(),
+				service:(App.rootpath+App.api.service).LoadJson(),
+				server:(App.rootpath+App.api.server).LoadJson(),
+				ip:Document.Paths.server
+			};
+			App.cfg.port=App.cfg.service.websocket.port;
+            $$("#work").Html(tmpl(("./app.txt").LoadURL(),App))
+            App.parent=new Element("#panwork");
+			Document.SystemTime("system_time");
+			Start=(Document.Paths.param!=null && "start" in Document.Paths.param)?Document.Paths.param.start:App.Start
+			mode=(Document.Paths.param!=null && "mode" in Document.Paths.param)?Document.Paths.param.mode:App.mode
+			if(App.cfg.release.device.network=="lo")Start="frmNetwork";
+			
+			App.code.list.ForEach(function(frmKey){
+				console.log(frmKey)
+				if(mode=="debug"){
+					$$("title").Index(0).Text("工位仪门户[调试]"+Document.Paths.server);
+					Document.LoadJscript(App.path+App.code[mode][frmKey].url,function(url){
+						App.Forms[frmKey]=new App.code[mode][frmKey].code(frmKey,App);
+						if(Start==frmKey){
+							App.Forms.activeForm=App.Forms[frmKey];					
+							App.Forms.activeForm.Show();
+						}
+					
+					});
+				}else if(mode=="compile"){
+					$$("title").Index(0).Text("工位仪门户[编码]");
+					App.code[mode][frmKey].code=(App.path+App.code[mode][frmKey].url).LoadURL().base64decode();
+					App.Forms[frmKey]=new (new Function("name","app",App.code[mode][frmKey].code))(frmKey,App);
+					if(Start==frmKey){App.Forms.activeForm=App.Forms[frmKey];App.Forms.activeForm.Show();}
+				}else if(mode=="release"){
+					$$("title").Index(0).Text("工位仪门户[发布]");
+					console.log(App.code[mode])
+					console.log(frmKey);
+					console.log(App.path+App.code[mode][frmKey].url)
+					App.code[mode][frmKey].code=(App.path+App.code[mode][frmKey].url).LoadURL();//.base64decode();
+					App.Forms[frmKey]=new (new Function("name","app",App.code[mode][frmKey].code))(frmKey,App);
+					if(Start==frmKey){App.Forms.activeForm=App.Forms[frmKey];App.Forms.activeForm.Show();}
+				}
+			});
+			System.OnResize(function(){App.Windows_Resize(Document.Width(),Document.Height());});		
+			App.Windows_Resize=function(w,h){$$("#panwork").css("height",(h-70)+"px");if(App.Forms.activeForm)App.Forms.activeForm.Form_Resize(w,h);}
+			App.Windows_Receive=function(data){
+				if(data.type=="sensor_dht11"){$$("#humidity").Html(data.result.humidity);$$("#temperature").Html(data.result.temperature); }
+				else App.Forms.activeForm.Form_Receive(data);}
+			App.cmdExit_Click=function(){
+				App.policy={
+					"username":"",
+					"cname":"",
+					"courseid":"",
+					"experimentid":"",
+					"InspectionRecord":null,
+					"start":"",
+					"end":""
+				}
+				$$("#panwork").Clear();App.Forms[App.Start].Show();
+			};
+			App.getPolicy=function(username){
+				url = App.rootpath + "/api/getpolicy/user/<username>".replace("<username>", username);
+				console.log(url)
+				App.policy.data=[];
+				url.LoadJson().policy.ForEach(function (policy, index) {
+					App.policy.data.Add({"starttime":policy.starttime,"endtime":policy.endtime,"devindex":policy.devindex})
+				})
+			};
+			App.websocket_Connect=function(){ 
+				App.wsc.isOpen=true; 
+				console.log("websocket connected");
+				App.wsc.SendMessage({'cmd':'websocket.test'},this,function(selfObj, result){
+					selfObj.id=result.clientid; console.log("websocket.test.return:"+result.clientid); 
+				}); 
+			}
+			App.websocket_DisConnect=function(){
+				App.wsc.isOpen=false;console.log("websocket closed");
+			
+			}
+			App.wsc=new webSockObject(App.cfg.release.device.sn); 
+			App.wsc.Connect(
+				Document.Paths.server,
+				App.cfg.port,
+				App.websocket_Connect,
+				App.websocket_DisConnect,App.Windows_Receive);
+			App.Windows_Resize(Document.Width(),Document.Height());
+			
+		</script>	
+</body>
+
+</html>

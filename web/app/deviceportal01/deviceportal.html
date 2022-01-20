@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta name="renderer" content="webkit|ie-stand|ie-comp" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<meta name="Generator" content="GVSUN" />
+	<meta name="Author" content="lipinyong" />
+	<meta name="Keywords" content="" />
+	<meta name="Description" content="" />
+	<title></title>
+	<script type="text/javascript" src="/script/core.js"></script>
+	<script type="text/javascript" src="/script/data.js"></script>
+	<script type="text/javascript" src="/script/element.js"></script>
+	<script type="text/javascript" src="/script/webui.js"></script>
+</head>
+<body leftMargin=0 topMargin=0>
+	<div  id="work" class="outside_box"></div>
+		<script type="text/javascript">
+            var App="./device.config.json".LoadJson();;App.wsc=null;
+            App.controls={panLeftwidth:20};App.frm=null;
+            App.Window_Resize=function(w,h){
+                if("panLeft" in App.controls) App.controls.panLeft.Position({position:"absolute",left: 0,height:h+10,width:App.controls.panLeftwidth});
+                if("panWork" in App.controls) App.controls.panWork.Position({position:"absolute",left:App.controls.panLeftwidth,top:0,width:w-App.controls.panLeftwidth,height:h+10});   
+                if(App.frm!=null)App.frm.Form_Resize(App.controls.panWork.Width(),App.controls.panWork.Height());
+            }
+            App.Window_Receive=function(data){ console.log(App.Name+" receive:"+JSON.stringify(data));}
+            App.Window_Show=function(){
+                App.parent=new Element("#work");
+                App.controls.panLeftwidth=App.config.panLeftwidth;
+                App.cfg={
+                    ip:Document.Paths.server,
+                    port:8131,
+                    release:(App.rootpath+App.api.release).LoadJson(),
+                    station:(App.rootpath+App.api.station).LoadJson()
+                };
+                Document.LoadCSS(App.path+"/global.css");
+                if(App.wsc==null){ App.wsc=new webSockObject(App.cfg.release.device.sn); 
+                    App.wsc.Connect(Document.Paths.server,App.cfg.port,App.websocket_Connect,App.websocket_DisConnect,App.Window_Receive); }
+                else{ App.wsc.event_receive=App.Windows_Receive; } 
+                if(App.cfg.station.debug){ Document.LoadJscript(App.rootpath+"/script/vconsole.min.js",function(url){ App.vConsole = new VConsole(); })  }
+                for(var key in App.tmpl){
+                    App.controls[key]=App.parent.CreatesubElement();
+                    for(var itemkey in App.tmpl[key]){
+                        if(itemkey!="Children")App.controls[key][itemkey](App.tmpl[key][itemkey])
+                    }
+                    if(key=="panLeft"){
+                        App.tmpl.panLeft.Children.list.ForEach(function(key){
+                            App.controls[key]=App.controls.panLeft.CreatesubElement().ID(key);
+                            item=App.controls[key]
+                            item.Text( App.tmpl.panLeft.Children[key].Text).Item().align("left").td.Index(2).Text("▶")
+                            for(var itemkey in App.tmpl.panLeft.Children[key]){
+                                if(itemkey in item){
+                                    item[itemkey](App.tmpl.panLeft.Children[key][itemkey]);item.Width(App.controls.panLeftwidth);
+                                    frmKey=App.tmpl.panLeft.Children[key].bindfrm;
+                                    url=App.path+App.Module[frmKey];
+                                    Document.LoadJscript(url);
+                                    item.className("panLeftItem").attr("onclick","App.panLeft_Click(this.id)")                        
+                                }
+                            }    
+                        })
+                    }else if(key=="panWork"){
+                        App.controls.panWork.css("overflow","auto")
+                    }
+                }
+                App.Window_Resize(Document.Width(),Document.Height());
+            }
+            App.panLeft_Click=function(e){
+                for(key in App.controls){
+                    if(key.indexOf("item")!=-1){
+                    App.controls[key].Item().td.Index(0).attr("bgcolor","")
+                    App.controls[key].css("background","rgba(0,0,0,0)");
+                    }
+                }
+                $$("#"+e).css("background","rgba(0,0,0,0.9)");
+                App.controls[e].Item().td.Index(0).attr("bgcolor","green")
+                App[e.replace("item","frm")].Show()
+            }
+            App.websocket_Connect=function(){ App.wsc.isOpen=true; console.log("websocket connected"); 
+            App.wsc.SendMessage({'cmd':'websocket.test'},this,function(self, result){ self.id=result.clientid; console.log("websocket.test.return:"+result.clientid); }); }
+            App.websocket_DisConnect=function(){App.wsc.isOpen=false;console.log("websocket closed");}
+			App.Window_Show();System.OnResize(function() {App.Window_Resize(Document.Width(),Document.Height());});
+		</script>	
+</body>
+
+</html>

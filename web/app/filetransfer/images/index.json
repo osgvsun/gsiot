@@ -1,0 +1,23 @@
+{
+    ".css": "/images/css.png",
+    ".csv": "/images/csv.png",
+    ".dir": "/images/dir.png",
+    ".gif": "/images/gif.png",
+    ".html": "/images/html.png",
+    ".htm": "/images/html.png",
+    ".jpeg": "/images/jpeg.png",
+    ".jpg": "/images/jpg.png",
+    ".js": "/images/js.png",
+    ".json": "/images/json.png",
+    ".log": "/images/log.png",
+    ".md": "/images/md.png",
+    ".mp4": "/images/mp4.png",
+    ".pdf": "/images/pdf.png",
+    ".ppt": "/images/ppt.png",
+    ".pyc": "/images/py.png",
+    ".py": "/images/py.png",
+    ".rar": "/images/rar.png",
+    ".tsv": "/images/tsv.png",
+    ".txt": "/images/txt.png",
+    ".xml": "/images/xml.png"
+}
