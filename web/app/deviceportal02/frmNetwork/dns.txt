@@ -1,7 +1,0 @@
-<table border=1 width=100% height=100% >
-<tr><td width=70>DHCP</td><td></td></tr>
-<tr><td>DNS：</td></tr>
-<%for(var i=0;i<dns.length;i++)=%>
-<tr><td><input type="text" placeholder="请输入地址" value="<%=dns[i]%>"/></td></tr>
-<%}%>
-</table>

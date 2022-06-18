@@ -1,4 +1,0 @@
-<div class="content">
-    <div id="qrcode"></div>
-    <p><font size=3>请确保扫码设备和工位仪在同一局域网内时扫码</font></p>
-</div>
