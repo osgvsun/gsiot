@@ -1,0 +1,111 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.tree {
+    color: rgba(0, 0, 0, 0.8);
+    font-size: 12px;
+}
+
+.tree-node-parent {
+    background: url(../image/line-vertical.png) repeat-y;
+    background-position-x: 8px;
+    list-style-type: none;
+}
+
+.tree-last-child > .tree-node-parent {
+    background: none;
+}
+
+.tree-node {
+    background: url(../image/line-tri.png) no-repeat;
+    background-position-x: 28px;
+    background-position-y: -2px;
+    padding-left: 20px;
+    user-select: none;
+    list-style-type: none;
+    position: relative;
+}
+
+.tree-toggle-off {
+    position: absolute;
+    top: 2px;
+    content: url(../image/toggle-off.png);
+}
+
+.tree-toggle-on {
+    position: absolute;
+    top: 2px;
+    content: url(../image/toggle-on.png);
+}
+
+.tree-content {
+    width: 150px;
+    margin-left: 18px;
+    padding-left: 5px;
+    padding-right: 10px;
+    box-sizing: border-box;
+    display: inline-block;
+    border: 1px transparent solid;
+    border-radius: 2px;
+}
+
+.tree-content-selected {
+    background: lightblue;
+    border: 1px lightskyblue solid;
+}
+
+.tree-icon {
+    position: relative;
+    top: 1px;
+}
+
+.tree-text {
+    padding-left: 4px;
+    position: relative;
+    top: -2px;
+}
+
+.tree-menu-container {
+    position: absolute;
+    display: block;
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.tree-menu-parent {
+    background: white;
+    border-radius: 2px;
+    padding: 5px 0px 5px 0px;
+    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.3);
+    list-style: none;
+}
+
+.tree-menu {
+    height: 25px;
+    padding-left: 5px;
+    padding-right: 5px;
+    user-select: none;
+    display: grid;
+    position: relative;
+    grid-template-columns: 16px 150px 16px;
+    grid-column-gap: 6px;
+    align-items: center;
+    justify-content: center;
+}
+
+.tree-menu:hover {
+    background: lightskyblue;
+}
+
+.tree-menu > .tree-menu-parent {
+    display: none;
+    position: absolute;
+    left: 204px;
+    top: -5px;
+}
+
+.tree-menu:hover > .tree-menu-parent {
+    display: block;
+}

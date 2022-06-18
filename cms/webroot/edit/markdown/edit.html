@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8" />
+    <title>MarkDown编辑器</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/editormd.css" />
+    <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
+    <script src="js/jquery.min.js"></script>
+
+    <script type="text/javascript" src="/scripts/data.js"></script>
+    <script type="text/javascript" src="/scripts/element.js"></script>
+    <script type="text/javascript" src="/scripts/webui.js"></script>
+
+    <script src="js/marked.min.js"></script>
+    <script src="js/prettify.min.js"></script>
+    <script src="js/raphael.min.js"></script>
+    <script src="js/underscore.min.js"></script>
+    <script src="js/sequence-diagram.min.js"></script>
+    <script src="js/flowchart.min.js"></script>
+    <script src="js/jquery.flowchart.min.js"></script>
+
+
+</head>
+
+<body>
+    <div>
+        <label>文件</label>
+        <input type="textbox" id="filename" value="" />
+        <button id="open">读取</button>
+        <button id="save">保存</button>
+    </div>
+    <!-- <div id="layout" style="position:absolute;width:100%;height:100%">
+
+    </div> -->
+
+    <div id="sidebar" style="width:15%;border:1px solid #ccc;float:left;box-sizing:border-box;">
+        <h1>大纲</h1>
+        <div class="markdown-body editormd-preview-container" id="custom-toc-container">#custom-toc-container</div>
+    </div>
+    <div id="layout" style="width:85%;border:1px solid #ccc;float:left;box-sizing:border-box;">
+    </div>
+    <script type="text/javascript">
+        var testEditormd, url = new URL(window.location.href),f=null;
+        if (url.searchParams.get("file") != null) { $$("#filename").val(url.searchParams.get("file")) };
+        
+        $$("button").Click(function(e){
+            console.log("Click:"+e.target.id)
+            if      (e.target.id=="open"){
+                openmakrdownfile($$("#filename").val())
+            }
+            else if (e.target.id=="save"){
+                f.Savefile($$("@test-editormd-markdown-doc")[0].val())
+            }
+        })
+        $(function () {
+
+            $.getScript("js/editormd.js", function () {
+                $("#layout").append("<div id=\"test-editormd\"></div>");
+                openmakrdownfile($$("#filename").val())
+            });
+        });
+        function openmakrdownfile(filename){
+            f = new webFile(filename)
+            testEditormd = editormd("test-editormd", {
+                width: "100%",
+                height: "100%",
+                markdown: f.Read(),
+                path: '../lib/',
+                htmlDecode: "style,script,iframe",
+                markdownSourceCode: true,
+                tocm: true,
+                tocContainer: "#custom-toc-container", // 自定义 ToC 容器层
+                emoji: true,
+                taskList: true,
+                tex: true,  // 默认不解析
+                flowChart: true,  // 默认不解析
+                sequenceDiagram: true  // 默认不解析
+            });
+        }
+    </script>
+</body>
+
+</html>

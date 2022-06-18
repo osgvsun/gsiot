@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8" />
+    <title>HTML Preview(markdown to html)</title>
+    <link rel="stylesheet" href="/edit/markdown/css/style.css" />
+    <link rel="stylesheet" href="/edit/markdown/css/editormd.preview.css" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <style>
+        .editormd-html-preview {
+            width: 90%;
+            margin: 0 auto;
+        }
+    </style>
+    <script src="/edit/markdown/js/jquery.min.js"></script>
+    <script src="/edit/markdown/js/marked.min.js"></script>
+    <script src="/edit/markdown/js/prettify.min.js"></script>
+
+    <script src="/edit/markdown/js/raphael.min.js"></script>
+    <script src="/edit/markdown/js/underscore.min.js"></script>
+    <script src="/edit/markdown/js/sequence-diagram.min.js"></script>
+    <script src="/edit/markdown/js/flowchart.min.js"></script>
+    <script src="/edit/markdown/js/jquery.flowchart.min.js"></script>
+
+    <script type="text/javascript" src="/scripts/data.js"></script>
+    <script type="text/javascript" src="/scripts/element.js"></script>
+    <script type="text/javascript" src="/scripts/webui.js"></script>
+</head>
+
+<body>
+    <div id="layout" style="width:85%;border:1px solid #ccc;float:left;box-sizing:border-box;">
+    </div>
+
+    <script type="text/javascript">
+    // htmlroot="./"
+    function newfile(e){console.log("newfile",e.attr("data-bind"));}
+    function newfolder(e){console.log("newfolder",e.attr("data-bind"))}
+    function delitem(e){console.log("delitem",e.attr("data-bind"))}
+    function renameitem(e){console.log("renameitem",e.attr("data-bind"))}
+
+        $(function () {
+            var testEditormdView,url = new URL(window.location.href), file = "";
+            // , testEditormdView2, 
+            if (url.searchParams.get("path") != null) { file = url.searchParams.get("path") };
+            file+="/";
+            $.getScript("/edit/markdown/js/editormd.js", function () {
+                $("#layout").append("<div id=\"test-editormd\"></div>");
+                json=("/webfs"+file).LoadJson();json.htmlroot=url.pathname;
+                testEditormdView = editormd.markdownToHTML("test-editormd", {
+                    markdown: tmpl("/edit/fslist.tmpl".LoadURL(),json),//+ "\r\n" + $("#append-test").text(),
+                    htmlDecode      : true,
+                    htmlDecode: "style,script,iframe,label,div",  // you can filter tags decode
+                    //toc             : false,
+                    tocm: true,    // Using [TOCM]
+                    tocContainer: "#custom-toc-container", // 自定义 ToC 容器层
+                    //gfm             : false,
+                    //tocDropdown     : true,
+                    // markdownSourceCode : true, // 是否保留 Markdown 源码，即是否删除保存源码的 Textarea 标签
+                    emoji: true,
+                    taskList: true,
+                    tex: true,  // 默认不解析
+                    flowChart: true,  // 默认不解析
+                    sequenceDiagram: true  // 默认不解析
+                });
+                // testEditormdView2 = editormd.markdownToHTML("test-editormd-view2", {
+                //     htmlDecode: "style,script,iframe",  // you can filter tags decode
+                //     emoji: true,
+                //     taskList: true,
+                //     tex: true,  // 默认不解析
+                //     flowChart: true,  // 默认不解析
+                //     sequenceDiagram: true,  // 默认不解析
+                // });
+            });
+        });
+    </script>
+</body>
+
+</html>

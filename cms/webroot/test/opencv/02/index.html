@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="/scripts/element.js"></script>
+    <script type="text/javascript" src="/scripts/data.js"></script>
+    <script type="text/javascript" src="/scripts/webui.js"></script>
+    <script async src="opencv.js" onload="$$('#status').html('OpenCV.js is ready.');" type="text/javascript"></script>
+    <title>首页</title>
+</head>
+
+<body style="margin-top:0px; margin-left:0px;">
+    <div>
+        <label>InPut</label>
+        <div id="sourceImage" style="display:table-cell;">
+            <div class="caption">imageSrc <input type="file" id="fileInput" name="file" /></div>
+        </div>
+        <div id="work" style="display:table-cell;">
+            <div class="caption">mjpg url:
+                <input type="textbox"  autocomplete="off" id="mjpgurl" name="mjpgurl" value="http://192.168.199.239:4747/mjpegfeed" />
+                <button id="mjpgplay">预览</button>
+            </div>
+        </div>
+    </div>
+    <div>
+        <label>OutPut</label> <button id="canvasplay">预览</button>
+        <div style="display:table-cell;">
+            <canvas id="canvasSourceInput"></canvas>
+            <div class="caption">canvasSourceInput</div>
+        </div>
+        <div  style="display:table-cell;">
+            <canvas id="canvasOutput" width='320' height='240'></canvas>
+            <div class="caption">canvasOutput</div>    
+        </div>
+    </div>
+    <p id="status">OpenCV.js is loading...</p>
+    <script type="text/javascript">
+        $$("#mjpgplay").addEventListener("click", (e) => {
+            if ($$("#mjpgpreview") == null) { $$('#work').Add("img").attr("id", "mjpgpreview").attr("width", 320).attr("height", 240).attr("onError", 'imgerror(this)') };
+            $$("#mjpgpreview").attr("src", $$("#mjpgurl").val()).onload = function () {
+                var f=function(){
+                    $$("#canvasOutput").getContext('2d').drawImage( $$("#mjpgpreview"), 0, 0, 320, 240)    
+                }
+                window.setInterval(f, 10);
+            };
+        }, false);
+        $$("#fileInput").addEventListener("change", (e) => {
+            if ($$("#imageSrc") == null) { $$('#sourceImage').Add("img").attr("id", "imageSrc").attr("width", 320).attr("height", 240).attr("alt", 'No Image') };
+            $$("#imageSrc").attr("src",URL.createObjectURL(e.target.files[0])).onload = function () {
+                let mat = cv.imread($$("#imageSrc"));
+                cv.imshow('canvasSourceInput', mat);
+                mat.delete();
+            };
+        }, false);
+        $$("#canvasplay").addEventListener("click", (e) => {
+            var f1=function(){
+                let mat = cv.imread($$("#mjpgpreview"));
+                cv.imshow('canvasSourceInput', mat);
+                mat.delete();
+            }
+            window.setInterval(f1, 100);
+        }, false);
+        function imgerror(img) {img.src = "";img.οnErrοr = null;}
+    </script>
+</body>
+
+</html>

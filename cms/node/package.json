@@ -1,0 +1,33 @@
+{
+  "name": "back",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon app.js",
+    "dev": "pm2 start processes.json",
+    "prd": "pm2 start processes.json"
+  },
+  "dependencies": {
+    "body-parser": "~1.16.0",
+    "connect-multiparty": "^2.2.0",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.0",
+    "express": "^4.17.1",
+    "express-jwt": "^5.3.0",
+    "fdfs": "^1.0.4",
+    "images": "^3.2.3",
+    "jade": "~1.11.0",
+    "jsonwebtoken": "^7.4.0",
+    "morgan": "~1.7.0",
+    "multiparty": "^4.1.4",
+    "mysql": "^2.17.1",
+    "nodemon": "^2.0.2",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4",
+    "restframework-express": "^1.4.0",
+    "serve-favicon": "~2.3.2",
+    "shortid": "^2.2.8",
+    "silly-datetime": "^0.1.2",
+    "sync-request": "^6.1.0"
+  }
+}

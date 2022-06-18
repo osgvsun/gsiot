@@ -1,0 +1,29 @@
+{
+    "httpconntion":"http://192.168.1.139",
+    "header":{
+        "Private-Token":"xcwX7Q2EHEYY_rixx6x7"
+    },
+    "user":{
+        "id": 48,
+        "name": "李品勇",
+        "username": "lipinyong"
+    },
+    "postissue":{
+        "id" : 0,
+        "iid" : null,
+        "issue_iid":0,
+        "title" : "",
+        "description" : null,
+        "confidential": null,
+        "assignees_ids" : null,
+        "milestone_id" : null,
+        "labels" :null,
+        "state_event":null,
+        "created_at" : null,
+        "updated_at" : null,
+        "due_date" : null,
+        "merge_request_to_resolve_discussions_of":null,
+        "weight": null,
+        "discussion_locked":null
+    }
+}

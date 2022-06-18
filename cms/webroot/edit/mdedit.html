@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>首页</title>
+    <script type="text/javascript" src="/scripts/data.js"></script>
+    <script type="text/javascript" src="/scripts/element.js"></script>
+    <script type="text/javascript" src="/scripts/webui.js"></script>
+    <script type="text/javascript" src="/scripts/marked.min.js"></script>
+    
+</head>
+
+<body style="margin-top:0px; margin-left:0px;">
+    <div id="content"></div>
+    <script type="text/javascript">
+        $$(function(){
+            var url = new URL(window.location.href),filename="";
+            if (url.hash != "") filename = url.hash.replace("#", "")
+            else if (url.searchParams.get("file") != null) { filename = url.searchParams.get("file") };
+            $$("#content").markDownBrowser(filename).Parse();
+            // $$("#content").html(marked.parse(new webFile(filename).Read()));
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+{
+    "data":"### ```当前目录:<%=result.folder.replace(result.webroot,\"\")%>```\n
+    |名称|容量|访问时间|操作|\n
+    |----|----|----|----|\n
+    <%if(result.folder.replace(result.webroot,\"\")!=\"/\") {%>
+        |[..](/wFS.html?path=<%=result.parent.replace(result.webroot,\"\")%>)|< DIR >|<button onclick=\"newfolder()\">新建目录</button>|
+        <button onclick=\"newfile()\">新建文件</button>
+        |\n
+    <% }%>
+    <% for(i=0;i<result.subfolder.length;i++) {%>
+        |[<%=result.subfolder[i].name%>](/wFS.html?path=<%=result.subfolder[i].access%>)|
+        < DIR >|
+        <%if(\"accessdate\" in result.subfolder[i]){%>
+            <%=result.subfolder[i].accessdate%>
+        <%}%>
+        ||\n
+    <% }%>
+    <% for(i=0;i<result.subfile.length;i++) {%>
+        |[<%=result.subfile[i].name %>](<%=result.subfile[i].access%>)
+        |<%=result.subfile[i].size %>|<%=result.subfile[i].accessdate %>|
+        <%if(\"edit\" in result.subfile[i]){%>
+            [编辑](<%=result.subfile[i].edit%>)
+        <%}%>
+        <%if(\"show\" in result.subfile[i]){%>
+            [预览](<%=result.subfile[i].show%>)
+        <%}%>
+        |\n
+    <% }%>\n
+    "
+}

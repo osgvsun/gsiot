@@ -1,0 +1,30 @@
+
+### ```当前目录:<%=result.folder.replace(result.webroot,"")%>```\n
+|名称|容量|访问时间|操作|\n
+|----|----|----|----|\n
+<%if(result.folder.replace(result.webroot,"")!="/") {%>
+    |[..](<%=htmlroot%>?path=<%=result.parent.replace(result.webroot,"")%>)|< DIR >||
+    <button data-bind="<%=result.parent.replace(result.webroot,"")%>" onclick="newfolder(this)">新建目录</button>
+    <button data-bind="<%=result.parent.replace(result.webroot,"")%>" onclick="newfile(this)">新建文件</button>
+    |\n
+<% }%>
+<% for(i=0;i<result.subfolder.length;i++) {%>
+    |[<%=result.subfolder[i].name%>](<%=htmlroot%>?path=<%=result.subfolder[i].access%>)|
+    < DIR >|
+    <%if("accessdate" in result.subfolder[i]){%>
+        <%=result.subfolder[i].accessdate%>
+    <%}%>|
+    [编辑]() [预览]()
+    <button data-bind="<%=result.subfolder[i].access%>" onclick="delitem(this)">删除</button>
+    <button data-bind="<%=result.subfolder[i].access%>" onclick="renameitem(this)">重命名</button>
+    |\n
+<% }%>
+<% for(i=0;i<result.subfile.length;i++) {%>
+    |[<%=result.subfile[i].name %>](<%=result.subfile[i].access%>)
+    |<%=result.subfile[i].size %>|<%=result.subfile[i].accessdate %>|
+    <%if("edit" in result.subfile[i]){%>[编辑](<%=result.subfile[i].edit%>)<%}else{%>[编辑]()<%}%>
+    <%if("show" in result.subfile[i]){%>[预览](<%=result.subfile[i].show%>)<%}else{%>[预览]()<%}%>
+    <button data-bind="<%=result.subfile[i].access%>" onclick="delitem(this)">删除</button>
+    <button data-bind="<%=result.subfile[i].access%>" onclick="renameitem(this)">重命名</button>
+    |\n
+<% }%>
