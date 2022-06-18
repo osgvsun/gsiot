@@ -1,16 +1,18 @@
 # -*- coding:utf-8 -*-
-import json,os,platform,sys,threading,time,traceback,base64,binascii
+import json,os,platform,sys,threading,time,traceback,base64,binascii,functools
 from multiprocessing import Process
 from datetime import datetime
-if __name__=="__main__":
-    path=sys.path[0]
-    sys.path.append(os.path.abspath(path+"/.."))
-isPY2= sys.version_info>(2,0,0)
+isPY2= sys.version_info<(3,0,0)
 isPY3= sys.version_info>(3,0,0)
 isWindows=platform.uname()[0]=="Windows"
 isLinux =platform.uname()[0]=="Linux"
+isARM=os.popen("less /proc/cpuinfo|grep 'model name'").read().strip().split('\n')[0].find("ARMv7 Processor")!=-1
 isSerial=False
 System=None
+
+path=sys.path[0]
+sys.path.append(path+"/../../..")
+
 if isPY2:
     reload(sys)  
     sys.setdefaultencoding('utf8')  
@@ -75,6 +77,29 @@ def gsQuerer(**argv):
     elif isPY3:from queue import Queue
     elif isPY2:from Queue import Queue  
     return Queue(size)
+class DictProperty(object):
+    ''' 属性，该属性映射到类似于本地dict的属性中的键 '''
+    def __init__(self, attr, key=None, read_only=False):
+        self.attr, self.key, self.read_only = attr, key, read_only
+
+    def __call__(self, func):
+        functools.update_wrapper(self, func, updated=[])
+        self.getter, self.key = func, self.key or func.__name__
+        return self
+
+    def __get__(self, obj, cls):
+        if obj is None: return self
+        key, storage = self.key, getattr(obj, self.attr)
+        if key not in storage: storage[key] = self.getter(obj)
+        return storage[key]
+
+    def __set__(self, obj, value):
+        if self.read_only: raise AttributeError("Read-Only property.")
+        getattr(obj, self.attr)[self.key] = value
+
+    def __delete__(self, obj):
+        if self.read_only: raise AttributeError("Read-Only property.")
+        del getattr(obj, self.attr)[self.key]
 class gsError(Exception):"""Raise when gsobject runtime Error"""
 class edict(dict):
     def __init__(self,*argv,**kargv):
@@ -341,8 +366,9 @@ class PoolManager(gsobject):
             worker.start()
             self.workers.append(worker)
     def Close(self):
-        for member in self.members:member.stop=True
-        self.members=[]
+        for worker in self.workers:
+            worker.stop=True
+        self.workers=[]
 class WorkThread(threading.Thread):
     def __init__(self, work_queue):
         threading.Thread.__init__(self)
@@ -445,6 +471,11 @@ class system(gsobject):
         if isPY2 and isWindows and (isPY3 and type(data)==str) or (isPY2 and type(data) in [str,unicode]):value=value.encode("gbk")
         print(value)
     def runcmd(self,cmd):return os.popen(cmd).read().strip().split("\n")
+    def ExecCmdShell(self,cmd):
+        c="{} 1>/tmp/null 2>/tmp/err_null".format(cmd)
+        r=os.system(c)
+        if r!=0:self.Console(c)
+        return r
     def getUSBSerial(self):
         value=[]
         ret=edict()
@@ -540,6 +571,9 @@ class system(gsobject):
                 i+=1
             ret["key_"+base64.b64encode(rs["Mounted"]).replace("/","_")]=edict(rs)
         return ret
+    def Close(self):
+        time.sleep(1)
+        self.print_work.Close()
 if not System:System=system() 
 
 if __name__=='__main__':

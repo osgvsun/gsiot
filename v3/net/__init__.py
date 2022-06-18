@@ -1,6 +1,7 @@
+#! /usr/bin/python
 # -*- coding:utf-8 -*-
-# import sys,os,platform,threading,hashlib
-# from datetime import datetime
+import sys,os,platform,threading,hashlib,time
+from datetime import datetime
 from gsiot.v3 import *
 from gsiot.v3.file import gsFile
 @Singleton
@@ -9,12 +10,13 @@ class Net():
         self.nic=edict()
         self.route=[]
         self.dns=[]
+        self.network=os.popen("ip route show |grep default").read().strip().split("\n")[0].split(" ")[4]
         self.dirlist()
         self.interval=0
         self.taskrunning =False
         self.event=None
         self.wificonf="/etc/wpa.conf"
-    def __call__(self,adapter=None):return self.toDict() if adapter==None else self.nic[adapter].data if adapter in self.nic.list else None
+    def __call__(self,adapter=None):return self.toDict() if adapter==None or adapter=="" else NetworkInterface(adapter)
     def __task__(self):
         while self.taskrunning==True:
             for key in self.nic.list:
@@ -38,11 +40,11 @@ class Net():
     def toDict(self):
         data=edict(dns=self.dns,adapters=edict(),interfaces=self.nic.list)
         for key in self.nic.list:data.adapters.update({key:self.nic[key].data})
-        return data
+        return edict({"data":data})
     def OpenEvent(self,s):
         self.interval=s
         self.taskrunning =True
-        self.event=threading.Thread(target=self.__task__)
+        self.event=threading.Thread(target=setoDictlf.__task__)
         self.event.setDaemon(True)
         self.event.start()
     def CloseEvent(self):
@@ -72,7 +74,7 @@ class Net():
     def setWifiConfig(self,value):
         self.wificonf=value
         for adapter in self.nic.list:
-            if adapter!="" and self(adapter).iswireless:self(adapter).wificonf=value
+            if adapter!="" and self(adapter).data.iswireless:self(adapter).wificonf=value
     def checkip(self,ip):
         flag=True
         for key in self.nic.list:
@@ -83,9 +85,8 @@ class Net():
 class NetworkInterface():
     def __init__(self,adapter=None):
         self.adapter=adapter
-        self.data=edict(device=adapter,ip="",mac="",netmask="",gateway="",dns="",dhcp=False if self.isdhcp()==False else True,running=False,islinked=False,iswireless=os.path.exists("/sys/class/net/{}/wireless".format(self.adapter)))
-        if self.data.iswireless:
-            self.data.wifi=edict(signallevel=0,essid="",access_point="",mode="",isinit=False if os.path.isdir("/run/wpa_supplicant")==False else adapter in os.listdir("/run/wpa_supplicant"))
+        self.data=edict(device=adapter,ip="",mac="",netmask="",gateway="",dns="",dhcp=False if self.isdhcp()==False else True,running=False,islinked=False,iswireless=False)
+        self.data.wifi=edict(signallevel=0,essid="",access_point="",mode="",isinit=False if os.path.isdir("/run/wpa_supplicant")==False else adapter in os.listdir("/run/wpa_supplicant"))
         self.data.flow=edict(rx=0,tx=0)
         self.wificonf="/etc/wpa.conf"
         self.tmpwificonf="/tmp/wpa.conf"
@@ -94,30 +95,30 @@ class NetworkInterface():
     def __call__(self):
         self.data.islinked=False
         self.data.running=False
-        # self.data.iswireless=os.path.exists("/sys/class/net/{}/wireless".format(self.adapter))
-        if self.data.iswireless and self.data.wifi.isinit:self.__cmd__("wpa_cli -i {} scan".format(self.adapter))
-        for line in self.__cmd__("ifconfig {}".format(self.adapter)):
-            try:
-                record=line.replace("inet6 addr","inet6_addr").split()
-                if   line.find("HWaddr")!=-1:self.data.mac=record[-1]
-                elif record[0]=="inet":
-                    self.data.ip=record[1].replace("addr:","")
-                    self.data.netmask=record[-1].replace("Mask:","")
-                    if record[2]=="netmask":self.data.netmask=record[3]
-                elif record[0]=="ether":self.data.mac=record[1] if record[1].find(":")!=-1 else record[2]
-                elif line.find("UP")!=-1:
-                    self.data.islinked=True
-                    self.data.running=True if line.find("RUNNING")!=-1 else False
-                elif record[0]=="RX":self.data.flow.rx=record[1].replace("packets:") if line.find("packets:")!=-1 else record[2]
-                elif record[0]=="TX":self.data.flow.tx=record[1].replace("packets:") if line.find("packets:")!=-1 else record[2]
-            except:pass
-        for line in self.__cmd__("ip route show|grep default|grep {}".format(self.adapter)):
-            if line!="":
-                self.data.gateway=line.split()[2]
-                break   
-        # 如果是无线
+        if os.path.exists("/sys/class/net/{}".format(self.adapter.split(":")[0])):
+            self.data.iswireless=os.path.exists("/sys/class/net/{}/wireless".format(self.adapter))
+            if self.data.iswireless and self.data.wifi.isinit:self.__cmd__("wpa_cli -i {} scan".format(self.adapter))
+            for line in self.__cmd__("ifconfig {}".format(self.adapter)):
+                try:
+                    record=line.replace("inet6 addr","inet6_addr").split()
+                    if   line.find("HWaddr")!=-1:self.data.mac=record[-1]
+                    elif record[0]=="inet":
+                        self.data.ip=record[1].replace("addr:","")
+                        self.data.netmask=record[-1].replace("Mask:","")
+                        if record[2]=="netmask":self.data.netmask=record[3]
+                    elif record[0]=="ether":self.data.mac=record[1] if record[1].find(":")!=-1 else record[2]
+                    elif line.find("UP")!=-1:
+                        self.data.islinked=True
+                        self.data.running=True if line.find("RUNNING")!=-1 else False
+                    elif record[0]=="RX":self.data.flow.rx=record[1].replace("packets:") if line.find("packets:")!=-1 else record[2]
+                    elif record[0]=="TX":self.data.flow.tx=record[1].replace("packets:") if line.find("packets:")!=-1 else record[2]
+                except:pass
+            for line in self.__cmd__("ip route show|grep via|grep {}".format(self.adapter)):
+                if line!="":
+                    self.data.gateway=line.split()[2]
+                    break   
+        self.data.networking=self.data.gateway!=""
         if self.data.iswireless:self.iwConfig()
-        # print "ok"
     def ChangeIP(self,**keyargv):
         data=edict(keyargv)
         try:
@@ -139,36 +140,35 @@ class NetworkInterface():
             self.saveAPconf(ssid=ssid,psk=psk)
             if self.data.running==False:self.ifup()
             self.setInitWifi()
-            result=self.__cmd__("wpa_cli -i {} list_network".format(self.adapter))
+            result=self.__cmd__("wpa_cli -i {} list_network|grep CURRENT".format(self.adapter))
             flag=False 
+            id=0
             for line in result[1:]:
                 try:
                     if line.split()[0]=="Failed":continue
                     id,rs_ssid,_,status=line.split("\t")
-                    printf(id,rs_ssid,_,status,flag,ssid)
+                    print id,rs_ssid,_,status
                     if rs_ssid==ssid:
                         flag=True
                         break
-                except:print(line)
+                except:print line
             if not flag:
-                printf("wpa_cli -i {} add_network".format(self.adapter))
-                printf("wpa_cli -i {} set_network 0 ssid '\"{}\"'".format(self.adapter,ssid))
-                printf("wpa_cli -i {} set_network 0 psk '\"{}\"'".format(self.adapter,psk))
-                printf("wpa_cli -i {} enable_network 0".format(self.adapter))
-
-                self.__cmd__("wpa_cli -i {} add_network".format(self.adapter))
-                self.__cmd__("wpa_cli -i {} set_network 0 ssid '\"{}\"'".format(self.adapter,ssid))
-                self.__cmd__("wpa_cli -i {} set_network 0 psk '\"{}\"'".format(self.adapter,psk))
-                self.__cmd__("wpa_cli -i {} enable_network 0".format(self.adapter))
-            else:
-                printf("wpa_cli -i {} select_network {}".format(self.adapter,id))
-                printf("wpa_cli -i {} enable_network {}".format(self.adapter,id))
-                self.__cmd__("wpa_cli -i {} select_network {}".format(self.adapter,id))
+                print(self.__cmd__("wpa_cli -i {} add_network".format(self.adapter)))
+                self.__cmd__("wpa_cli -i {} set_network {} ssid '\"{}\"'".format(self.adapter,id,ssid))
+                self.__cmd__("wpa_cli -i {} set_network {} psk '\"{}\"'".format(self.adapter,id,psk))
                 self.__cmd__("wpa_cli -i {} enable_network {}".format(self.adapter,id))
+                self.__cmd__("wpa_cli -i {} select_network {}".format(self.adapter,id))
+            # System.Console(self.__cmd__("wpa_cli -i {} list_network|grep {}").format(self.adapter,ssid))
+            time.sleep(1)
+            self()
+            if self.data.wifi.essid==ssid:
+                self.reDhcp()
+            return self.data
+        return True
     def setInitWifi(self):
         if not self.data.wifi.isinit:
-            printf("wpa_supplicant -Dnl80211 -B -i {} -c {}".format(self.adapter,self.tmpwificonf))
-            printf(self.__cmd__("wpa_supplicant -Dnl80211 -B -i {} -c {}".format(self.adapter,self.tmpwificonf)))
+            print "wpa_supplicant -Dnl80211 -B -i {} -c {}".format(self.adapter,self.tmpwificonf)
+            print self.__cmd__("wpa_supplicant -Dnl80211 -B -i {} -c {}".format(self.adapter,self.tmpwificonf))
             self.data.wifi.isinit=True
             time.sleep(2)
     def ifup(self):
@@ -181,25 +181,35 @@ class NetworkInterface():
             if self.data.islinked:self.__cmd__("ifconfig {} down".format(self.adapter))
             self.data.islinked=False
         except:pass
-    def reDhcp(self):self.__cmd__("dhclient {} &".format(self.adapter))
+    def reDhcp(self):
+        self.__cmd__("dhclient {} -r".format(self.adapter))
+        self.__cmd__("dhclient {} &".format(self.adapter))
+        self()
     def saveAPconf(self,**data):
-        f=open(self.tmpwificonf,"w")
+        f=open(self.wificonf,"w")
         f.write("ctrl_interface=/var/run/wpa_supplicant\n")
         f.write("update_config=1\n")
 
         f.write("network={\n")
         f.write("\tssid=\"{}\"\n".format(data["ssid"]))
         f.write("\tpsk=\"{}\"\n".format(data["psk"]))
-        f.write("}")
+        f.write("}\n\n")
+        if data["ssid"]=="lubanlou":
+            f.write("network={\n")
+            f.write("\tssid=\"lubanlou\"\n")
+            f.write("\tpsk=\"021-54244128\"\n")
+            f.write("}\n\n")
         f.close()
     def ScanAP(self):
         aplist=edict()
         self.setInitWifi()
         for line in self.__cmd__("wpa_cli -i {} scan_result".format(self.adapter))[1:-1]:
             value=line.split()
-            if len(value)>4:aplist.update(
+            # flag=is_contain_chinese(" ".join(value[4:]).decode("utf-8"))
+            # print(" ".join(value[4:]).decode("utf-8"), flag)
+            if len(value)>4 and " ".join(value[4:]).find("\\")==-1:aplist.update(
                 {"key_"+value[0].replace(":",""):{
-                    "ssid":value[4],"bssid":value[0],
+                    "ssid":" ".join(value[4:]),"bssid":value[0],
                     "frequency":value[1],"signallevel":int(value[2]),
                     "flags":value[3][1:-1].replace("][",","),
                     "islinked":value[0]==self.data.wifi.access_point
@@ -225,12 +235,33 @@ class NetworkInterface():
         if len(result)!=0 and len(result[0])!=0 and result[0][0]!="#":return False
     
 if __name__ == "__main__":
-    try:adapter=sys.argv[1]
-    except:adapter=""
     net=Net()
-    if adapter=="":print (net().toJsonString(True))
-    elif adapter in net.nic:print net.nic[adapter].data.toJsonString(True)
-    else:printf("网卡{}不存在".format(adapter))
+    try:adapter=sys.argv[1] if sys.argv[1]!="all" else ""
+    except:adapter=net.network
+    
+    try:cmd=sys.argv[2]
+    except:cmd="show"
+    
+    if   cmd=="show":
+        if adapter=="" or (adapter.split(":")[0] in os.listdir("/sys/class/net")):print net(adapter).data.toJsonString(True)
+        else:print "网卡{}不存在".format(adapter)
+    elif cmd=="scan" and adapter!="" and net(adapter).data.iswireless:
+        data=net(adapter).ScanAP()
+        print type(data),data
+    elif cmd=="changeAP"and net(adapter).data.iswireless:
+        net(adapter).changeWPConnect(ssid=sys.argv[3],psk=sys.argv[4])
+        if net(adapter).data.wifi.essid==sys.argv[3]:
+            pass
+        
+
+
+
+
+
+
+
+
+    # else:print "网卡不存在"
     # wlan=net.nic["wlan1"]
     # wlan.changeWPConnect(ssid="GVSUN_SH",psk="5424412888")
     # time.sleep(3)
@@ -243,5 +274,3 @@ if __name__ == "__main__":
     # wlan.iwConfig()
     # wlan.ChangeIP(ip="192.168.96.111",netmask="255.255.255.0",gw="192.168.96.1")
     
-
-

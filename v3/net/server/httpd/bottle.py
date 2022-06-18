@@ -14,7 +14,7 @@ License: MIT (see LICENSE for details)
 """
 
 from __future__ import with_statement
-
+from gsiot.v3 import *
 __author__ = 'Marcel Hellkamp'
 __version__ = '0.12.16'
 __license__ = 'MIT'
@@ -34,8 +34,7 @@ if __name__ == '__main__':
     _cmd_options, _cmd_args = _cmd_parser.parse_args()
     if _cmd_options.server and _cmd_options.server.startswith('gevent'):
         import gevent.monkey; gevent.monkey.patch_all()
-
-import base64, cgi, email.utils, functools, hmac, imp, itertools, mimetypes,\
+import base64, cgi, email.utils,  hmac, imp, itertools, mimetypes,\
         os, re, subprocess, sys, tempfile, threading, time, warnings
 
 from datetime import date as datedate, datetime, timedelta
@@ -148,29 +147,7 @@ def makelist(data): # This is just to handy
     if isinstance(data, (tuple, list, set, dict)): return list(data)
     elif data: return [data]
     else: return []
-class DictProperty(object):
-    ''' Property that maps to a key in a local dict-like attribute. '''
-    def __init__(self, attr, key=None, read_only=False):
-        self.attr, self.key, self.read_only = attr, key, read_only
 
-    def __call__(self, func):
-        functools.update_wrapper(self, func, updated=[])
-        self.getter, self.key = func, self.key or func.__name__
-        return self
-
-    def __get__(self, obj, cls):
-        if obj is None: return self
-        key, storage = self.key, getattr(obj, self.attr)
-        if key not in storage: storage[key] = self.getter(obj)
-        return storage[key]
-
-    def __set__(self, obj, value):
-        if self.read_only: raise AttributeError("Read-Only property.")
-        getattr(obj, self.attr)[self.key] = value
-
-    def __delete__(self, obj):
-        if self.read_only: raise AttributeError("Read-Only property.")
-        del getattr(obj, self.attr)[self.key]
 class cached_property(object):
     ''' A property that is only computed once per instance and then replaces
         itself with an ordinary attribute. Deleting the attribute resets the
